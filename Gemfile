@@ -48,6 +48,7 @@ group :development do
   gem 'annotate'
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'rails-erd'
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
 end
