@@ -6,3 +6,7 @@ AllCops:
 
 Rails:
   Enabled: true
+
+# frozen_string_literal のコメントをfalse
+Style/FrozenStringLiteralComment:
+  Enabled: false
