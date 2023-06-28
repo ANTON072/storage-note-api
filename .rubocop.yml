@@ -13,3 +13,6 @@ Documentation:
 # frozen_string_literal のコメントをfalse
 Style/FrozenStringLiteralComment:
   Enabled: false
+
+Naming/ClassAndModuleCamelCase:
+  MinNameLength: 1
