@@ -1,7 +1,6 @@
 class User < ApplicationRecord
-
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
-  VALID_URL_REGEX   = /\A#{URI::regexp(%w[http https])}\z/
+  VALID_URL_REGEX   = /\A#{URI::DEFAULT_PARSER.make_regexp(%w[http https])}\z/
 
   validates :name,
             presence: true,
@@ -15,5 +14,4 @@ class User < ApplicationRecord
   validates :photo_url,
             allow_blank: true,
             format: { with: VALID_URL_REGEX }
-
 end
