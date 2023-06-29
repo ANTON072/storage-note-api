@@ -3,7 +3,7 @@ ja:
     models:
       user: ユーザー
     attributes:
-      event:
+      user:
         name: ユーザー名
         firebase_uid: Firebase UID
         email: メールアドレス
