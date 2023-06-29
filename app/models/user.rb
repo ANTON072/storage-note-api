@@ -5,14 +5,15 @@ class User < ApplicationRecord
 
   validates :name,
             presence: true,
-            length:   { minimum: 3, maximum: 15 },
-            format:   { with: /\A(?=.*[a-zA-Z])[a-zA-Z0-9_]{3,15}\z/ }
+            uniqueness: true,
+            length: { minimum: 3, maximum: 15 },
+            format: { with: /\A(?=.*[a-zA-Z])[a-zA-Z0-9_]{3,15}\z/ }
   validates :email,
             presence: true,
-            format:   { with: VALID_EMAIL_REGEX }
+            format: { with: VALID_EMAIL_REGEX }
   validates :firebase_uid, presence: true, uniqueness: true
   validates :photo_url,
             allow_blank: true,
-            format:      { with: VALID_URL_REGEX }
+            format: { with: VALID_URL_REGEX }
 
 end
