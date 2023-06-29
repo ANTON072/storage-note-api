@@ -15,11 +15,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_27_092137) do
   enable_extension "plpgsql"
 
   create_table "users", force: :cascade do |t|
-    t.string "uid", null: false
+    t.string "firebase_uid", null: false
     t.string "name", null: false
+    t.string "email", null: false
     t.string "photo_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["firebase_uid"], name: "index_users_on_firebase_uid", unique: true
   end
 
 end
