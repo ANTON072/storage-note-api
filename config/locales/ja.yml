@@ -1,0 +1,10 @@
+ja:
+  activerecord:
+    models:
+      user: ユーザー
+    attributes:
+      event:
+        name: ユーザー名
+        firebase_uid: Firebase UID
+        email: メールアドレス
+        photo_url: 画像URL
