@@ -16,3 +16,6 @@ Style/FrozenStringLiteralComment:
 
 Naming/ClassAndModuleCamelCase:
   MinNameLength: 1
+
+Metrics/MethodLength:
+  Enabled: false

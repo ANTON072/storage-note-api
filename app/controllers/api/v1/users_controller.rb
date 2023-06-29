@@ -8,12 +8,12 @@ module Api
 
       def create
         params = {
-          name:         user_params[:name],
-          photo_url:    user_params[:photo_url],
+          name: user_params[:name],
+          photo_url: user_params[:photo_url],
           firebase_uid: firebase_user['user_id'],
-          email:        firebase_user['email']
+          email: firebase_user['email']
         }
-        user   = User.new(params)
+        user = User.new(params)
         if user.save
           render json: user
         else
@@ -27,8 +27,6 @@ module Api
       def user_params
         params.require(:user).permit(:name, :photo_url)
       end
-
     end
   end
 end
-
