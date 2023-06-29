@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::API
   FIREBASE_PROJECT_ID = Rails.application.credentials[:firebase][:project_id]
-  GOOGLE_PUBLIC_KEYS_API = "https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com".freeze
+  GOOGLE_PUBLIC_KEYS_API = 'https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system
+.gserviceaccount.com'.freeze
   ALG = 'RS256'.freeze
 
   before_action :verify_id_token
