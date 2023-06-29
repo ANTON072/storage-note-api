@@ -14,7 +14,7 @@ RSpec.describe 'Api::V1::Users', type: :request do
     context 'when the request is valid' do
       before do
         allow_any_instance_of(User).to receive(:save).and_return(true)
-        post api_v1_user_path, params: user_params
+        post v1_user_path, params: user_params
       end
 
       it 'creates a user and returns status code 200' do
@@ -31,7 +31,7 @@ RSpec.describe 'Api::V1::Users', type: :request do
         allow_any_instance_of(User).to receive(:save).and_return(false)
         allow_any_instance_of(User).to receive_message_chain(:errors, :full_messages)
           .and_return(['Invalid parameters'])
-        post api_v1_user_path, params: user_params
+        post v1_user_path, params: user_params
       end
 
       it 'returns status code 400' do
