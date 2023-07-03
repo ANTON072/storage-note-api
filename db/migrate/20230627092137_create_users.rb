@@ -11,5 +11,6 @@ class CreateUsers < ActiveRecord::Migration[7.0]
 
     add_index :users, :firebase_uid, unique: true
     add_index :users, :name, unique: true
+    add_index :users, :email, unique: true
   end
 end

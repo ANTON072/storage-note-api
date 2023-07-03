@@ -21,6 +21,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_27_092137) do
     t.string "photo_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["firebase_uid"], name: "index_users_on_firebase_uid", unique: true
     t.index ["name"], name: "index_users_on_name", unique: true
   end
