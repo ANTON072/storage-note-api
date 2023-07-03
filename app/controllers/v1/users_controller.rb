@@ -1,8 +1,12 @@
 module V1
   class UsersController < ApplicationController
     def show
-      user = { id: 1, name: 'hoge' }
-      render json: user
+      if current_user
+        render json: current_user
+      else
+        render json: { errors: 'user not found' },
+               status: :not_found
+      end
     end
 
     def create

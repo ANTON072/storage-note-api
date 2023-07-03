@@ -17,6 +17,10 @@ class ApplicationController < ActionController::API
     @decoded_token.first
   end
 
+  def current_user
+    User.find_by(firebase_uid: firebase_user['user_id'])
+  end
+
   # Firebase idTokenの認証
   # See: https://firebase.google.com/docs/auth/admin/verify-id-tokens?hl=ja
   def verify_id_token

@@ -14,4 +14,5 @@ class User < ApplicationRecord
   validates :photo_url,
             allow_blank: true,
             format: { with: VALID_URL_REGEX }
+
 end
