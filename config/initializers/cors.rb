@@ -5,9 +5,17 @@
 
 # Read more: https://github.com/cyu/rack-cors
 
+CORS_ORIGINS = [
+  'storage-note.com'
+]
+
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins '*'
+    if Rails.env.production?
+      origins CORS_ORIGINS
+    else
+      origins '*'
+    end
 
     resource '*',
       headers: :any,
