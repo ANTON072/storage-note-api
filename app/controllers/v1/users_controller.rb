@@ -25,6 +25,11 @@ module V1
       end
     end
 
+    def update
+      current_user.update!({ photo_url: user_params[:photo_url] })
+      render json: current_user
+    end
+
     private
 
     def user_params
