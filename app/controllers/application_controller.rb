@@ -30,10 +30,7 @@ class ApplicationController < ActionController::API
   end
 
   def current_user
-    user = User.find_by(firebase_uid: firebase_user['user_id'])
-    raise AuthenticationError, 'User not found' unless user
-
-    user
+    User.find_by!(firebase_uid: firebase_user['user_id'])
   end
 
   # Firebase idTokenの認証
