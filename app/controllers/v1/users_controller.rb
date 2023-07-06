@@ -1,28 +1,19 @@
 module V1
   class UsersController < ApplicationController
     def show
-      if current_user
-        render json: current_user
-      else
-        render json: { errors: 'user not found' },
-               status: :not_found
-      end
+      render json: current_user
     end
 
     def create
-      params = {
+      user = User.new(
         name: user_params[:name],
         photo_url: user_params[:photo_url],
         firebase_uid: firebase_user['user_id'],
         email: firebase_user['email']
-      }
-      user = User.new(params)
-      if user.save
-        render json: user
-      else
-        render json: { errors: user.errors.full_messages },
-               status: :bad_request
-      end
+      )
+
+      user.save!
+      render json: user
     end
 
     def update
