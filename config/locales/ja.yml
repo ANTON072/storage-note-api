@@ -4,7 +4,7 @@ ja:
       user: ユーザー
     attributes:
       user:
-        name: ユーザー名
+        name: ユーザーID
         firebase_uid: Firebase UID
         email: メールアドレス
         photo_url: 画像URL
