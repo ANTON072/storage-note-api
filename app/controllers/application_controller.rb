@@ -1,17 +1,29 @@
 class ApplicationController < ActionController::API
+
+  include ErrorHandler
+
   FIREBASE_PROJECT_ID = Rails.configuration.firebase[:FIREBASE_PROJECT_ID]
   GOOGLE_PUBLIC_KEYS_API = 'https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com'.freeze
   ALG = 'RS256'.freeze
 
   before_action :verify_id_token
 
-  class AuthenticationError < StandardError; end
-
-  rescue_from AuthenticationError do |e|
-    render json: { error: e.message }, status: :unauthorized
-  end
-
   private
+
+  def render_errors(errors)
+    formatted_errors = errors.map do |error|
+      {
+        status: error[:status].to_s,
+        title: error[:title],
+        detail: error[:detail],
+        source: {
+          pointer: error[:path]
+        }
+      }
+    end
+
+    render json: { errors: formatted_errors }, status: errors.first[:status]
+  end
 
   def firebase_user
     @decoded_token.first
@@ -101,11 +113,15 @@ class ApplicationController < ActionController::API
       verify_aud: true,
       aud: FIREBASE_PROJECT_ID,
       verify_iss: true,
-      iss: "https://securetoken.google.com/#{FIREBASE_PROJECT_ID}"
+      iss: "https://securetoken.google.com/#{FIREBASE_PROJECT_ID}",
+      # トークンの期限切れ検証
+      verify_expiration: true
     }
 
     begin
       JWT.decode(token, public_key, true, options)
+    rescue JWT::ExpiredSignature => _e
+      raise AuthenticationError, '認証エラー: トークンが期限切れです。'
     rescue JWT::DecodeError => e
       raise AuthenticationError, "認証エラー: #{e.message}"
     end
