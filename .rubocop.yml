@@ -7,6 +7,15 @@ AllCops:
 Rails:
   Enabled: true
 
+Documentation:
+  Enabled: false
+
 # frozen_string_literal のコメントをfalse
 Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Naming/ClassAndModuleCamelCase:
+  MinNameLength: 1
+
+Metrics/MethodLength:
   Enabled: false
