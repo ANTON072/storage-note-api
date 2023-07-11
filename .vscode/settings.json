@@ -1,0 +1,6 @@
+{
+  "solargraph.transport": "socket",
+  "solargraph.logLevel": "debug",
+  "solargraph.diagnostics": true,
+  "solargraph.hover": false
+}
