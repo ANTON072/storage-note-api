@@ -10,8 +10,7 @@ services:
       POSTGRES_PASSWORD: password
     volumes:
       - data:/var/lib/postgresql/data:cached
-      # - ./tmp/db:/var/lib/postgresql/data
-  web: &app
+  web:
     build: .
     command: bash -c "rm -f tmp/pids/server.pid && rails s"
     depends_on:
@@ -28,11 +27,6 @@ services:
       - "3000:3000"
     stdin_open: true
     tty: true
-  solargraph:
-    <<: *app
-    command: bundle exec solargraph socket --host=0.0.0.0 --port=7658
-    ports:
-      - "8091:7658"
 
 volumes:
   bundle:
