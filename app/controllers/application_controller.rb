@@ -1,5 +1,4 @@
 class ApplicationController < ActionController::API
-
   include ErrorHandler
 
   FIREBASE_PROJECT_ID = Rails.configuration.firebase[:FIREBASE_PROJECT_ID]

@@ -19,6 +19,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 6.0.0'
   gem 'rubocop', require: false
   gem 'rubocop-rails', require: false
+  gem 'solargraph'
 end
 
 group :development do
