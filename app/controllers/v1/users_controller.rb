@@ -21,6 +21,16 @@ module V1
       render json: current_user
     end
 
+    def search
+      name = params[:name]
+      users = User.where('name LIKE ?', "%#{name}%")
+      extracted = users.map do |user|
+        { name: user.name, photo_url: user.photo_url }
+      end
+
+      render json: extracted
+    end
+
     private
 
     def user_params
@@ -28,4 +38,3 @@ module V1
     end
   end
 end
-
