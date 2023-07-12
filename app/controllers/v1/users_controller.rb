@@ -21,6 +21,12 @@ module V1
       render json: current_user
     end
 
+    def search
+      name = params[:name]
+      user = User.where('name LIKE ?', "%#{name}%")
+      render json: user.as_json(except: %i[id firebase_uid email created_at updated_at])
+    end
+
     private
 
     def user_params
@@ -28,4 +34,3 @@ module V1
     end
   end
 end
-
