@@ -23,8 +23,12 @@ module V1
 
     def search
       name = params[:name]
-      user = User.where('name LIKE ?', "%#{name}%")
-      render json: user.as_json(except: %i[id firebase_uid email created_at updated_at])
+      users = User.where('name LIKE ?', "%#{name}%")
+      extracted = users.map do |user|
+        { name: user.name, photo_url: user.photo_url }
+      end
+
+      render json: extracted
     end
 
     private
