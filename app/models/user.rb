@@ -1,3 +1,21 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id           :bigint           not null, primary key
+#  email        :string           not null
+#  firebase_uid :string           not null
+#  name         :string           not null
+#  photo_url    :string
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#
+# Indexes
+#
+#  index_users_on_email         (email) UNIQUE
+#  index_users_on_firebase_uid  (firebase_uid) UNIQUE
+#  index_users_on_name          (name) UNIQUE
+#
 class User < ApplicationRecord
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
   VALID_URL_REGEX   = /\A#{URI::DEFAULT_PARSER.make_regexp(%w[http https])}\z/
