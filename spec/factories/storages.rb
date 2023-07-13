@@ -16,8 +16,7 @@
 #
 FactoryBot.define do
   factory :storage do
-    name { "MyString" }
-    description { "MyString" }
-    image_url { "MyString" }
+    name { Faker::Name.unique.name }
+    description { Faker::Lorem.sentence }
   end
 end

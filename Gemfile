@@ -12,6 +12,7 @@ gem 'puma', '~> 5.0'
 gem 'rack-cors'
 gem 'rails', '~> 7.0.5'
 gem 'rails-i18n'
+gem 'ulid-ruby', require: 'ulid'
 
 group :development, :test do
   gem 'debug', platforms: %i[mri mingw x64_mingw]
@@ -20,6 +21,8 @@ group :development, :test do
   gem 'rubocop', require: false
   gem 'rubocop-rails', require: false
   gem 'solargraph'
+  gem 'shoulda-matchers', '~> 5.0'
+  gem 'faker'
 end
 
 group :development do

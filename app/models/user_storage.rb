@@ -22,4 +22,6 @@
 class UserStorage < ApplicationRecord
   belongs_to :user
   belongs_to :storage
+
+  # TODO: ストレージオーナーの場合はストレージの削除が必要
 end

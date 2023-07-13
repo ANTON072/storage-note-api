@@ -17,10 +17,8 @@
 #  index_users_on_name          (name) UNIQUE
 #
 class User < ApplicationRecord
-  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
-  VALID_URL_REGEX   = /\A#{URI::DEFAULT_PARSER.make_regexp(%w[http https])}\z/
+  enum state: { active: 0, inactive: 1 }
 
-  # TODO: ストレージオーナーの場合はストレージの削除が必要
   has_many :user_storages, dependent: :destroy
   has_many :storages, through: :user_storages
   has_many :created_items, class_name: 'Item', foreign_key: :created_by_id, inverse_of: :created_by, dependent: :nullify
@@ -33,9 +31,10 @@ class User < ApplicationRecord
             format: { with: /\A(?=.*[a-zA-Z])[a-zA-Z0-9_]{3,15}\z/ }
   validates :email,
             presence: true,
-            format: { with: VALID_EMAIL_REGEX }
+            uniqueness: true,
+            format: { with: ValidationConstants::VALID_EMAIL_REGEX }
   validates :firebase_uid, presence: true, uniqueness: true
   validates :photo_url,
             allow_blank: true,
-            format: { with: VALID_URL_REGEX }
+            format: { with: ValidationConstants::VALID_URL_REGEX }
 end
