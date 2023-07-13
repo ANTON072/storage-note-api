@@ -19,67 +19,90 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  let(:user) { build(:user) }
+  subject(:user) { build(:user) }
 
-  context 'validation' do
-    context 'valid' do
-      it 'validなattributesの場合はvalidである' do
-        expect(user).to be_valid
+  describe 'validations' do
+    it { should validate_presence_of(:email) }
+    it { should validate_uniqueness_of(:email) }
+    it { should validate_presence_of(:firebase_uid) }
+    it { should validate_uniqueness_of(:firebase_uid) }
+    it { should validate_presence_of(:name) }
+    it { should validate_uniqueness_of(:name) }
+    it { should validate_length_of(:name).is_at_least(3).is_at_most(15) }
+
+    context 'nameは英字のみvalid' do
+      subject(:user) do
+        build(:user, name: 'taro')
       end
+
+      it { should allow_value(user.name).for(:name) }
     end
 
-    context 'invalid' do
-      it 'nameがないとinvalid' do
-        user.name = nil
-        expect(user).to_not be_valid
+    context 'nameは英字と数字のみでもvalid' do
+      subject(:user) do
+        build(:user, name: '1abc')
       end
 
-      it 'nameが3文字未満の場合はinvalid' do
-        user.name = 'a' * 2
-        expect(user).to_not be_valid
+      it { should allow_value(user.name).for(:name) }
+    end
+
+    context 'nameは記号は_だけ許可' do
+      subject(:user) do
+        build(:user, name: '1ab_c')
       end
 
-      it 'nameが16文字以上の場合はinvalid' do
-        user.name = 'a' * 16
-        expect(user).to_not be_valid
+      it { should allow_value(user.name).for(:name) }
+    end
+
+    context 'nameは数字のみだとinvalid' do
+      subject(:user) do
+        build(:user, name: '1234')
       end
 
-      it 'firebase_uidがないとinvalid' do
-        user.firebase_uid = nil
-        expect(user).to_not be_valid
+      it { should_not allow_value(user.name).for(:name) }
+    end
+
+    context 'nameに_以外の記号が入るとinvalid' do
+      subject(:user) do
+        build(:user, name: 'abcd?')
       end
 
-      it 'firebase_uidが重複するとinvalid' do
-        create(:user, firebase_uid: 'duplicate_uid')
-        user.firebase_uid = 'duplicate_uid'
-        expect(user).to_not be_valid
+      it { should_not allow_value(user.name).for(:name) }
+    end
+
+    context 'photo_urlはURL形式のみ許可' do
+      subject(:user) do
+        build(:user, photo_url: 'https://example.com/image.png')
       end
 
-      it 'emailがないとinvalid' do
-        user.email = nil
-        expect(user).to_not be_valid
+      it { should allow_value(user.photo_url).for(:photo_url) }
+    end
+
+    context 'photo_urlはURL形式以外はinvalid' do
+      subject(:user) do
+        build(:user, photo_url: 'image')
       end
 
-      it 'emailが重複するとinvalid' do
-        create(:user, email: 'hoge@hoge.com')
-        user.email = 'hoge@hoge.com'
-        expect(user).to_not be_valid
-      end
-
-      it 'emailが不正なアドレスの場合はinvalid' do
-        user.email = 'hoge@@hoge'
-        expect(user).to_not be_valid
-      end
-
-      it 'photo_urlがURLでない場合はinvalid' do
-        user.photo_url = 'invalid'
-        expect(user).to_not be_valid
-      end
+      it { should_not allow_value(user.photo_url).for(:photo_url) }
     end
   end
 
-  # context 'association' do
-  #
-  # end
-
+  describe 'associations' do
+    it { should have_many(:user_storages).dependent(:destroy) }
+    it { should have_many(:storages).through(:user_storages) }
+    it {
+      should have_many(:created_items)
+        .class_name('Item')
+        .with_foreign_key('created_by_id')
+        .inverse_of(:created_by)
+        .dependent(:destroy)
+    }
+    it {
+      should have_many(:updated_items)
+        .class_name('Item')
+        .with_foreign_key('updated_by_id')
+        .inverse_of(:updated_by)
+        .dependent(:nullify)
+    }
+  end
 end

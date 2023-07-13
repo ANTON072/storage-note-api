@@ -12,7 +12,7 @@
 #  category_id   :bigint           not null
 #  created_by_id :bigint           not null
 #  storage_id    :bigint           not null
-#  updated_by_id :bigint           not null
+#  updated_by_id :bigint
 #
 # Indexes
 #

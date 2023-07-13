@@ -8,7 +8,7 @@ class CreateItems < ActiveRecord::Migration[7.0]
       t.references :category, foreign_key: true
       t.integer :item_count, null: false
       t.references :updated_by, foreign_key: { to_table: :users }
-      t.references :created_by, foreign_key: { to_table: :users }
+      t.references :created_by, null: true, foreign_key: { to_table: :users }
 
       t.timestamps
     end
