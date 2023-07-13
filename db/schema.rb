@@ -10,16 +10,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_13_044513) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_13_045054) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "categories", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.bigint "storage_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["storage_id", "name"], name: "index_categories_on_storage_id_and_name", unique: true
     t.index ["storage_id"], name: "index_categories_on_storage_id"
+  end
+
+  create_table "items", force: :cascade do |t|
+    t.bigint "storage_id", null: false
+    t.string "name", null: false
+    t.string "description"
+    t.string "image_url"
+    t.bigint "category_id", null: false
+    t.integer "item_count", null: false
+    t.bigint "updated_by_id", null: false
+    t.bigint "created_by_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_items_on_category_id"
+    t.index ["created_by_id"], name: "index_items_on_created_by_id"
+    t.index ["name"], name: "index_items_on_name"
+    t.index ["storage_id"], name: "index_items_on_storage_id"
+    t.index ["updated_by_id"], name: "index_items_on_updated_by_id"
   end
 
   create_table "storages", force: :cascade do |t|
@@ -55,6 +74,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_13_044513) do
   end
 
   add_foreign_key "categories", "storages"
+  add_foreign_key "items", "categories"
+  add_foreign_key "items", "storages"
+  add_foreign_key "items", "users", column: "created_by_id"
+  add_foreign_key "items", "users", column: "updated_by_id"
   add_foreign_key "user_storages", "storages"
   add_foreign_key "user_storages", "users"
 end
