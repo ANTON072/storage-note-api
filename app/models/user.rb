@@ -20,6 +20,12 @@ class User < ApplicationRecord
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
   VALID_URL_REGEX   = /\A#{URI::DEFAULT_PARSER.make_regexp(%w[http https])}\z/
 
+  # TODO: ストレージオーナーの場合はストレージの削除が必要
+  has_many :user_storages, dependent: :destroy
+  has_many :storages, through: :user_storages
+  has_many :created_items, class_name: 'Item', foreign_key: :created_by_id, inverse_of: :created_by, dependent: :nullify
+  has_many :updated_items, class_name: 'Item', foreign_key: :updated_by_id, inverse_of: :updated_by, dependent: :nullify
+
   validates :name,
             presence: true,
             uniqueness: true,
@@ -32,5 +38,4 @@ class User < ApplicationRecord
   validates :photo_url,
             allow_blank: true,
             format: { with: VALID_URL_REGEX }
-
 end

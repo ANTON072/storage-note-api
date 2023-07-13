@@ -19,4 +19,5 @@
 #
 class Category < ApplicationRecord
   belongs_to :storage
+  has_many :items, dependent: :nullify
 end
