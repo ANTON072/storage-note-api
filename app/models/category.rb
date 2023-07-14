@@ -18,6 +18,8 @@
 #  fk_rails_...  (storage_id => storages.id)
 #
 class Category < ApplicationRecord
+  validates :name, { presence: true }
+
   belongs_to :storage
   has_many :items, dependent: :nullify
 end
