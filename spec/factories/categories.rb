@@ -19,7 +19,6 @@
 #
 FactoryBot.define do
   factory :category do
-    name { "MyString" }
-    storage { nil }
+    sequence(:name) { |n| "Category #{n}" }
   end
 end

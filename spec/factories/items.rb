@@ -31,13 +31,13 @@
 #
 FactoryBot.define do
   factory :item do
-    storage { nil }
-    name { "MyString" }
-    description { "MyString" }
-    image_url { "MyString" }
-    category { nil }
-    item_count { 1 }
-    updated_by { nil }
-    created_by { nil }
+    association :storage
+    association :category
+    association :created_by, factory: :user
+    association :updated_by, factory: :user
+    name { Faker::Lorem.word }
+    description { Faker::Lorem.sentence }
+    item_count { Faker::Number.between(from: 1, to: 10) }
+    image_url { Faker::Internet.url }
   end
 end
