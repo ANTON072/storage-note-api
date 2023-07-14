@@ -19,3 +19,6 @@ Naming/ClassAndModuleCamelCase:
 
 Metrics/MethodLength:
   Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false

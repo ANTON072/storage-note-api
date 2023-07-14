@@ -2,5 +2,12 @@
   "solargraph.transport": "socket",
   "solargraph.logLevel": "debug",
   "solargraph.diagnostics": true,
-  "solargraph.hover": false
+  "solargraph.hover": false,
+  "ruby.lint": {
+    "rubocop": true
+  },
+  "[ruby]": {
+    "editor.formatOnSave": false
+  },
+  "ruby.format": "rubocop"
 }
