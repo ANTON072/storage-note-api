@@ -37,4 +37,13 @@ class User < ApplicationRecord
   validates :photo_url,
             allow_blank: true,
             format: { with: ValidationConstants::VALID_URL_REGEX }
+
+  # ストレージに所属するユーザーをすべて取得する
+  def self.storage_members_for_multiple_storages(storages)
+    User
+      .joins(:user_storages)
+      .select('users.name, users.photo_url, user_storages.storage_id')
+      .where(user_storages: { storage: storages, role: :member })
+  end
+
 end

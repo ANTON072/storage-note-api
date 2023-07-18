@@ -19,18 +19,25 @@ class Storage < ApplicationRecord
 
   validates :name,
             presence: true,
-            length: { minimum: 3, maximum: 20 }
+            length:   { minimum: 3, maximum: 20 }
   validates :slug,
-            presence: true,
+            presence:   true,
             uniqueness: true
   validates :image_url,
             allow_blank: true,
-            format: { with: ValidationConstants::VALID_URL_REGEX }
+            format:      { with: ValidationConstants::VALID_URL_REGEX }
 
   has_many :user_storages, dependent: :destroy
   has_many :users, through: :user_storages
   has_many :items, dependent: :destroy
   has_many :categories, dependent: :destroy
+
+  def self.owner_storages(user)
+    Storage
+      .includes(:user_storages)
+      .includes(:users)
+      .where(user_storages: { user_id: user.id, role: :owner })
+  end
 
   private
 
