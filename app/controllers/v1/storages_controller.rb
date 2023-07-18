@@ -19,12 +19,12 @@ class V1::StoragesController < ApplicationController
     members_names = storage_params[:members] || []
 
     ActiveRecord::Base.transaction do
+      storage.save!
       UserStorage.create_owner(current_user, storage)
       members_names.each do |name|
         user = User.find_by!(name:)
         UserStorage.create_member(user, storage)
       end
-      storage.save!
     end
 
     render json: storage
@@ -45,8 +45,8 @@ class V1::StoragesController < ApplicationController
   def verify_owner
     @storage = Storage.find_by(slug: params[:id])
     @members = User.storage_members_for_multiple_storages(@storage)
-    owners = Storage.owner_storages(current_user)
-    raise ActiveRecord::RecordNotFound unless owners.include?(@storage)
+    is_owner = UserStorage.exists?(user: current_user, storage: @storage, role: :owner)
+    raise ActiveRecord::RecordNotFound unless is_owner
   end
 
   def storage_params
