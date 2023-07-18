@@ -46,9 +46,4 @@ class User < ApplicationRecord
       .where(user_storages: { storage: storages, role: :member })
   end
 
-  def self.storage_members(storage)
-    User.includes(:user_storages)
-        .where(user_storages: { storage_id: storage.id, role: :member })
-  end
-
 end
