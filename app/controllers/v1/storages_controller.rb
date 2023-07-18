@@ -1,13 +1,14 @@
 class V1::StoragesController < ApplicationController
 
+  before_action :verify_owner, only: %i[show update destroy]
+
   def index
     @storages = Storage.owner_storages(current_user)
     @members = User.storage_members_for_multiple_storages(@storages)
   end
 
   def show
-    storage = Storage.find_by!(slug: params[:slug])
-    render json: storage
+    @members = User.storage_members_for_multiple_storages(@storage)
   end
 
   def create
@@ -39,6 +40,12 @@ class V1::StoragesController < ApplicationController
   end
 
   private
+
+  def verify_owner
+    @storage = Storage.find_by(slug: params[:id])
+    owners = Storage.owner_storages(current_user)
+    raise ActiveRecord::RecordNotFound unless owners.include?(@storage)
+  end
 
   def storage_params
     params.require(:storage).permit(
