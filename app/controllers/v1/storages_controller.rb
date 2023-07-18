@@ -32,7 +32,9 @@ class V1::StoragesController < ApplicationController
   end
 
   def update
-
+    @storage.update!(storage_params)
+    @members = User.storage_members_for_multiple_storages(@storage)
+    render :show
   end
 
   def destroy
