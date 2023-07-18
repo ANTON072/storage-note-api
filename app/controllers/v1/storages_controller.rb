@@ -8,7 +8,6 @@ class V1::StoragesController < ApplicationController
   end
 
   def show
-    @members = User.storage_members_for_multiple_storages(@storage)
   end
 
   def create
@@ -33,18 +32,19 @@ class V1::StoragesController < ApplicationController
 
   def update
     @storage.update!(storage_params)
-    @members = User.storage_members_for_multiple_storages(@storage)
     render :show
   end
 
   def destroy
-
+    @storage.destroy!
+    render :show
   end
 
   private
 
   def verify_owner
     @storage = Storage.find_by(slug: params[:id])
+    @members = User.storage_members_for_multiple_storages(@storage)
     owners = Storage.owner_storages(current_user)
     raise ActiveRecord::RecordNotFound unless owners.include?(@storage)
   end
