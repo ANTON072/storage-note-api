@@ -31,6 +31,10 @@ module V1
       render json: extracted
     end
 
+    def destroy
+      # TODO: 退会
+    end
+
     private
 
     def user_params
