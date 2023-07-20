@@ -39,12 +39,19 @@ class User < ApplicationRecord
             format: { with: ValidationConstants::VALID_URL_REGEX }
 
   # ストレージに所属するユーザーをすべて取得する
+#   def self.storage_members(storage)
+#     User
+#       .joins(:user_storages)
+#       .where(user_storages: { storage: storage })
+#       .pluck('users.name', 'users.photo_url', 'user_storages.storage_id', 'user_storages.role')
+#       .map { |name, photo_url, storage_id, role| { name: name, photo_url: photo_url, storage_id: storage_id,
+# role: role } }
+#   end
+
   def self.storage_members(storage)
     User
       .joins(:user_storages)
+      .select('users.name, users.photo_url, user_storages.storage_id, user_storages.role')
       .where(user_storages: { storage: storage })
-      .pluck('users.name', 'users.photo_url', 'user_storages.storage_id', 'user_storages.role')
-      .map { |name, photo_url, storage_id, role| { name: name, photo_url: photo_url, storage_id: storage_id, 
-role: role } }
   end
 end
