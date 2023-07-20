@@ -9,7 +9,9 @@ class V1::StoragesController < ApplicationController
   end
 
   def show
+    raise ActiveRecord::RecordNotFound unless @members.any? { |m| m[:name] == current_user.name }
   end
+
 
   def create
     storage = Storage.new(
