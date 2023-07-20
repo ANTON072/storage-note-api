@@ -1,10 +1,11 @@
 class V1::StoragesController < ApplicationController
 
-  before_action :verify_owner, only: %i[show update destroy]
+  before_action :set_storage_and_members, only: %i[show update destroy]
+  before_action :verify_owner, only: %i[update destroy]
 
   def index
-    @storages = Storage.owner_storages(current_user)
-    @members = User.storage_members_for_multiple_storages(@storages)
+    @storages = Storage.my_storages(current_user).order(created_at: :desc)
+    @members = User.storage_members(@storages)
   end
 
   def show
@@ -42,11 +43,14 @@ class V1::StoragesController < ApplicationController
 
   private
 
+  def set_storage_and_members
+    @storage = Storage.find_by!(slug: params[:id])
+    @members = User.storage_members(@storage)
+  end
+
   def verify_owner
-    @storage = Storage.find_by(slug: params[:id])
-    @members = User.storage_members_for_multiple_storages(@storage)
     is_owner = UserStorage.exists?(user: current_user, storage: @storage, role: :owner)
-    raise ActiveRecord::RecordNotFound unless is_owner
+    raise ActiveRecord::AuthenticationError unless is_owner
   end
 
   def storage_params

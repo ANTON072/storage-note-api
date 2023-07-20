@@ -39,11 +39,10 @@ class User < ApplicationRecord
             format: { with: ValidationConstants::VALID_URL_REGEX }
 
   # ストレージに所属するユーザーをすべて取得する
-  def self.storage_members_for_multiple_storages(storages)
+  def self.storage_members(storage)
     User
       .joins(:user_storages)
-      .select('users.name, users.photo_url, user_storages.storage_id')
-      .where(user_storages: { storage: storages, role: :member })
+      .select('users.name, users.photo_url, user_storages.storage_id, user_storages.role')
+      .where(user_storages: { storage: storage })
   end
-
 end
