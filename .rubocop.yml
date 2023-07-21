@@ -25,3 +25,12 @@ Metrics/BlockLength:
 
 Layout/HashAlignment:
   Enabled: false
+
+Layout/ExtraSpacing:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false

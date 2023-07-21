@@ -25,23 +25,23 @@ class User < ApplicationRecord
   has_many :updated_items, class_name: 'Item', foreign_key: :updated_by_id, inverse_of: :updated_by, dependent: :nullify
 
   validates :name,
-            presence: true,
+            presence:   true,
             uniqueness: true,
-            length: { minimum: 3, maximum: 15 },
-            format: { with: /\A(?=.*[a-zA-Z])[a-zA-Z0-9_]{3,15}\z/ }
+            length:     { minimum: 3, maximum: 15 },
+            format:     { with: /\A(?=.*[a-zA-Z])[a-zA-Z0-9_]{3,15}\z/ }
   validates :email,
-            presence: true,
+            presence:   true,
             uniqueness: true,
-            format: { with: ValidationConstants::VALID_EMAIL_REGEX }
+            format:     { with: ValidationConstants::VALID_EMAIL_REGEX }
   validates :firebase_uid, presence: true, uniqueness: true
   validates :photo_url,
             allow_blank: true,
-            format: { with: ValidationConstants::VALID_URL_REGEX }
+            format:      { with: ValidationConstants::VALID_URL_REGEX }
 
   def self.storage_members(storage)
     User
       .joins(:user_storages)
       .select('users.name, users.photo_url, user_storages.storage_id, user_storages.role')
-      .where(user_storages: { storage: storage })
+      .where(user_storages: { storage: })
   end
 end
