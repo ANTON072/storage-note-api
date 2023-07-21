@@ -1,5 +1,5 @@
 members = @members.select { |m| m.storage_id == storage.id }
-                  .map { |m| { name: m.name, photo_url: m.name, is_owner: m.role == 1 } }
+                  .map { |m| { name: m.name, photo_url: m.photo_url, is_owner: m.role == 1 } }
                   .sort_by { |m| m[:is_owner] ? 0 : 1 }
 
 json.id storage.slug
