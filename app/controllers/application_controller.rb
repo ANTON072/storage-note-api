@@ -122,6 +122,7 @@ class ApplicationController < ActionController::API
     begin
       JWT.decode(token, public_key, true, options)
     rescue JWT::ExpiredSignature => _e
+      pp '======================================'
       raise ExpiredTokenError, '認証エラー: トークンが期限切れです。'
     rescue JWT::DecodeError => e
       raise AuthenticationError, "認証エラー: #{e.message}"

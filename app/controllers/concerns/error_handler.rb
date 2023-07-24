@@ -1,4 +1,7 @@
 module ErrorHandler
+  class AuthenticationError < StandardError; end
+  class ExpiredTokenError < AuthenticationError; end
+
   extend ActiveSupport::Concern
 
   included do
