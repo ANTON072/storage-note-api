@@ -23,7 +23,8 @@ module V1
 
     def search
       name = params[:name]
-      users = User.where('name LIKE ?', "%#{name}%")
+      # users = User.where('name LIKE ?', "%#{name}%")
+      users = User.where('name LIKE ? AND name != ?', "%#{name}%", current_user[:name])
       extracted = users.map do |user|
         { name: user.name, photo_url: user.photo_url }
       end

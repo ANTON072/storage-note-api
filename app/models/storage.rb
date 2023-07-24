@@ -39,6 +39,13 @@ class Storage < ApplicationRecord
       .where(user_storages: { user_id: user.id, role: :owner })
   end
 
+  def self.my_storages(user)
+    Storage
+      .includes(:user_storages)
+      .includes(:users)
+      .where(user_storages: { user_id: user.id })
+  end
+
   private
 
   def generate_slug

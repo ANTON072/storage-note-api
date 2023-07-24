@@ -7,6 +7,8 @@ class ApplicationController < ActionController::API
 
   before_action :verify_id_token
 
+  helper_method :current_user
+
   private
 
   def render_errors(errors)
