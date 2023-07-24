@@ -11,7 +11,6 @@ module StorageNote
     config.load_defaults 7.0
     config.api_only = true
     config.time_zone = 'Tokyo'
-    config.autoload_paths += %W[#{config.root}/app/errors]
     config.i18n.default_locale = :ja
     config.firebase = config_for(:firebase)
   end
