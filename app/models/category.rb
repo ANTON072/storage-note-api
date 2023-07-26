@@ -22,4 +22,15 @@ class Category < ApplicationRecord
 
   belongs_to :storage
   has_many :items, dependent: :nullify
+
+  def self.create_default_categories(storage)
+    Category.create!([
+                       { name: '未分類', storage: storage },
+                       { name: '日用品', storage: storage },
+                       { name: '食料品', storage: storage },
+                       { name: '衣類', storage: storage },
+                       { name: '電化製品', storage: storage },
+                       { name: 'その他', storage: storage }
+                     ])
+  end
 end

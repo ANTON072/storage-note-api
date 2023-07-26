@@ -3,6 +3,8 @@ Rails.application.routes.draw do
     resource :user
     get 'users/search', to: 'users#search'
 
-    resources :storages
+    resources :storages do
+      resources :categories, only: %i[index create update destroy]
+    end
   end
 end

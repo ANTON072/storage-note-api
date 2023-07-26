@@ -16,6 +16,7 @@
 #
 class Storage < ApplicationRecord
   before_validation :generate_slug, on: :create
+  after_create :create_categories
 
   validates :name,
             presence: true,
@@ -47,6 +48,10 @@ class Storage < ApplicationRecord
   end
 
   private
+
+  def create_categories
+    Category.create_default_categories(self)
+  end
 
   def generate_slug
     self.slug ||= ULID.generate
