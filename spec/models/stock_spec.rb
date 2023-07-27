@@ -2,17 +2,22 @@
 #
 # Table name: stocks
 #
-#  id            :bigint           not null, primary key
-#  description   :string
-#  image_url     :string
-#  item_count    :integer          not null
-#  name          :string           not null
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  category_id   :bigint           not null
-#  created_by_id :bigint           not null
-#  storage_id    :bigint           not null
-#  updated_by_id :bigint           not null
+#  id                :bigint           not null, primary key
+#  alert_threshold   :integer
+#  description       :string
+#  image_url         :string
+#  is_favorite       :boolean
+#  item_count        :integer          not null
+#  name              :string           not null
+#  price             :string
+#  purchase_location :string
+#  unit_name         :string
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  category_id       :bigint
+#  created_by_id     :bigint
+#  storage_id        :bigint           not null
+#  updated_by_id     :bigint
 #
 # Indexes
 #

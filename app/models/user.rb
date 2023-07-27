@@ -7,6 +7,7 @@
 #  firebase_uid :string           not null
 #  name         :string           not null
 #  photo_url    :string
+#  state        :integer          default("active"), not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #

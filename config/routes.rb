@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
     resources :storages do
       resources :categories, only: %i[index create update destroy]
+      resources :stocks
     end
   end
 end

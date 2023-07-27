@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_27_071711) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_27_075809) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -28,12 +28,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_27_071711) do
     t.string "name", null: false
     t.string "description"
     t.string "image_url"
-    t.bigint "category_id", null: false
+    t.bigint "category_id"
     t.integer "item_count", null: false
-    t.bigint "updated_by_id", null: false
-    t.bigint "created_by_id", null: false
+    t.bigint "updated_by_id"
+    t.bigint "created_by_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "purchase_location"
+    t.string "price"
+    t.string "unit_name"
+    t.integer "alert_threshold"
+    t.boolean "is_favorite"
     t.index ["category_id"], name: "index_stocks_on_category_id"
     t.index ["created_by_id"], name: "index_stocks_on_created_by_id"
     t.index ["name"], name: "index_stocks_on_name"
@@ -66,6 +71,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_27_071711) do
     t.string "name", null: false
     t.string "email", null: false
     t.string "photo_url"
+    t.integer "state", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
