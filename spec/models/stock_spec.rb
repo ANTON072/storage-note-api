@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: items
+# Table name: stocks
 #
 #  id            :bigint           not null, primary key
 #  description   :string
@@ -16,11 +16,11 @@
 #
 # Indexes
 #
-#  index_items_on_category_id    (category_id)
-#  index_items_on_created_by_id  (created_by_id)
-#  index_items_on_name           (name)
-#  index_items_on_storage_id     (storage_id)
-#  index_items_on_updated_by_id  (updated_by_id)
+#  index_stocks_on_category_id    (category_id)
+#  index_stocks_on_created_by_id  (created_by_id)
+#  index_stocks_on_name           (name)
+#  index_stocks_on_storage_id     (storage_id)
+#  index_stocks_on_updated_by_id  (updated_by_id)
 #
 # Foreign Keys
 #
@@ -29,15 +29,8 @@
 #  fk_rails_...  (storage_id => storages.id)
 #  fk_rails_...  (updated_by_id => users.id)
 #
-FactoryBot.define do
-  factory :item do
-    association :storage
-    association :category
-    association :created_by, factory: :user
-    association :updated_by, factory: :user
-    name { Faker::Lorem.word }
-    description { Faker::Lorem.sentence }
-    item_count { Faker::Number.between(from: 1, to: 10) }
-    image_url { Faker::Internet.url }
-  end
+require 'rails_helper'
+
+RSpec.describe Stock, type: :model do
+  pending "add some examples to (or delete) #{__FILE__}"
 end

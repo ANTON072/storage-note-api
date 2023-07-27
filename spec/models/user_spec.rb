@@ -91,15 +91,15 @@ RSpec.describe User, type: :model do
     it { should have_many(:user_storages).dependent(:destroy) }
     it { should have_many(:storages).through(:user_storages) }
     it {
-      should have_many(:created_items)
-        .class_name('Item')
+      should have_many(:created_stocks)
+        .class_name('Stock')
         .with_foreign_key('created_by_id')
         .inverse_of(:created_by)
         .dependent(:destroy)
     }
     it {
-      should have_many(:updated_items)
-        .class_name('Item')
+      should have_many(:updated_stocks)
+        .class_name('Stock')
         .with_foreign_key('updated_by_id')
         .inverse_of(:updated_by)
         .dependent(:nullify)

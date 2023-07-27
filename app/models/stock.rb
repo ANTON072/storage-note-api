@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: items
+# Table name: stocks
 #
 #  id            :bigint           not null, primary key
 #  description   :string
@@ -12,15 +12,15 @@
 #  category_id   :bigint           not null
 #  created_by_id :bigint           not null
 #  storage_id    :bigint           not null
-#  updated_by_id :bigint
+#  updated_by_id :bigint           not null
 #
 # Indexes
 #
-#  index_items_on_category_id    (category_id)
-#  index_items_on_created_by_id  (created_by_id)
-#  index_items_on_name           (name)
-#  index_items_on_storage_id     (storage_id)
-#  index_items_on_updated_by_id  (updated_by_id)
+#  index_stocks_on_category_id    (category_id)
+#  index_stocks_on_created_by_id  (created_by_id)
+#  index_stocks_on_name           (name)
+#  index_stocks_on_storage_id     (storage_id)
+#  index_stocks_on_updated_by_id  (updated_by_id)
 #
 # Foreign Keys
 #
@@ -29,7 +29,7 @@
 #  fk_rails_...  (storage_id => storages.id)
 #  fk_rails_...  (updated_by_id => users.id)
 #
-class Item < ApplicationRecord
+class Stock < ApplicationRecord
   validates :name, presence: true
   validates :item_count, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :image_url,

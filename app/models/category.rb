@@ -21,7 +21,7 @@ class Category < ApplicationRecord
   validates :name, { presence: true }
 
   belongs_to :storage
-  has_many :items, dependent: :nullify
+  has_many :stocks, dependent: :nullify
 
   def self.create_default_categories(storage)
     Category.create!([
