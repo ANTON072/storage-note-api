@@ -1,6 +1,8 @@
 class V1::StocksController < ApplicationController
   before_action :set_storage_and_members
   before_action :set_stock, only: %i[show update destroy favorite unfavorite increment decrement]
+  before_action :verify_owner, only: %i[destroy]
+  before_action :verify_creator, only: %i[destroy]
 
   def index
     @stocks = @storage.stocks.order(created_at: :desc)
@@ -96,5 +98,15 @@ class V1::StocksController < ApplicationController
 
   def set_stock
     @stock = Stock.find(params[:id])
+  end
+
+  def verify_owner
+    is_owner = UserStorage.exists?(user: current_user, storage: @storage, role: :owner)
+    raise ActiveRecord::AuthenticationError unless is_owner
+  end
+
+  def verify_creator
+    is_creator = @stock.created_by == current_user
+    raise ActiveRecord::AuthenticationError unless is_creator
   end
 end

@@ -1,5 +1,4 @@
 class V1::StoragesController < ApplicationController
-
   before_action :set_storage_and_members, only: %i[show update destroy]
   before_action :verify_owner, only: %i[update destroy]
 
