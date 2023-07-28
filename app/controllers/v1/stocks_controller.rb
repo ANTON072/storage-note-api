@@ -1,10 +1,13 @@
 class V1::StocksController < ApplicationController
-
   before_action :set_storage_and_members
-  before_action :set_stock, only: %i[show update destroy]
+  before_action :set_stock, only: %i[show update destroy favorite unfavorite increment decrement]
 
   def index
     @stocks = @storage.stocks.order(created_at: :desc)
+  end
+
+  def show
+    @stock = Stock.find params[:id]
   end
 
   def create
@@ -14,10 +17,6 @@ class V1::StocksController < ApplicationController
 
     stock.save!
     render json: stock
-  end
-
-  def show
-    @stock = Stock.find params[:id]
   end
 
   def update
@@ -40,10 +39,52 @@ class V1::StocksController < ApplicationController
     render :show
   end
 
+  def favorite
+    @stock.update!(is_favorite: true)
+    render :show
+  end
+
+  def unfavorite
+    @stock.update!(is_favorite: false)
+    render :show
+  end
+
+  def increment
+    item_count = params[:item_count].to_i
+    if item_count <= 0
+      render json: { error: 'item_countが無効です' }, status: :bad_request
+      return
+    end
+
+    new_item_count = @stock.item_count + item_count
+    @stock.update!(item_count: new_item_count)
+    render :show
+  end
+
+  def decrement
+    item_count = params[:item_count].to_i
+    if item_count <= 0
+      render json: { error: 'item_countが無効です' }, status: :bad_request
+      return
+    end
+
+    new_item_count = @stock.item_count - item_count
+    if new_item_count.negative?
+      render json: { error: 'item_countが無効です' }, status: :bad_request
+      return
+    end
+
+    @stock.update!(item_count: new_item_count)
+    render :show
+  end
+
   private
 
   def stock_params
-    params.require(:stock).permit(:name, :item_count, :image_url, :description, :price, :unit_name, :purchase_location, :alert_threshold, :is_favorite, :category_id)
+    params
+      .require(:stock)
+      .permit(:name, :item_count, :image_url, :description, :price, :unit_name, :purchase_location,
+              :alert_threshold, :is_favorite, :category_id)
   end
 
   def set_storage_and_members

@@ -7,10 +7,10 @@ Rails.application.routes.draw do
       resources :categories, only: %i[index create update destroy]
 
       resources :stocks
-      patch 'stocks/:id/favorite', to: 'stocks#favorite'
+      patch 'stocks/:id/favorite',   to: 'stocks#favorite'
       patch 'stocks/:id/unfavorite', to: 'stocks#unfavorite'
-      patch 'stocks/:id/increment', to: 'stocks#increment'
-      patch 'stocks/:id/decrement', to: 'stocks#decrement'
+      patch 'stocks/:id/increment',  to: 'stocks#increment'
+      patch 'stocks/:id/decrement',  to: 'stocks#decrement'
     end
   end
 end
