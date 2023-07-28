@@ -59,7 +59,7 @@ RSpec.describe Storage, type: :model do
   describe 'associations' do
     it { should have_many(:user_storages).dependent(:destroy) }
     it { should have_many(:users).through(:user_storages) }
-    it { should have_many(:items).dependent(:destroy) }
+    it { should have_many(:stocks).dependent(:destroy) }
     it { should have_many(:categories).dependent(:destroy) }
   end
 end

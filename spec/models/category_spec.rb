@@ -28,6 +28,6 @@ RSpec.describe Category, type: :model do
 
   describe 'associations' do
     it { should belong_to(:storage) }
-    it { should have_many(:items).dependent(:nullify) }
+    it { should have_many(:stocks).dependent(:nullify) }
   end
 end

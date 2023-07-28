@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_13_045054) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_27_075809) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -23,22 +23,27 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_13_045054) do
     t.index ["storage_id"], name: "index_categories_on_storage_id"
   end
 
-  create_table "items", force: :cascade do |t|
+  create_table "stocks", force: :cascade do |t|
     t.bigint "storage_id", null: false
     t.string "name", null: false
     t.string "description"
     t.string "image_url"
-    t.bigint "category_id", null: false
+    t.bigint "category_id"
     t.integer "item_count", null: false
-    t.bigint "updated_by_id", null: false
-    t.bigint "created_by_id", null: false
+    t.bigint "updated_by_id"
+    t.bigint "created_by_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["category_id"], name: "index_items_on_category_id"
-    t.index ["created_by_id"], name: "index_items_on_created_by_id"
-    t.index ["name"], name: "index_items_on_name"
-    t.index ["storage_id"], name: "index_items_on_storage_id"
-    t.index ["updated_by_id"], name: "index_items_on_updated_by_id"
+    t.string "purchase_location"
+    t.string "price"
+    t.string "unit_name"
+    t.integer "alert_threshold"
+    t.boolean "is_favorite"
+    t.index ["category_id"], name: "index_stocks_on_category_id"
+    t.index ["created_by_id"], name: "index_stocks_on_created_by_id"
+    t.index ["name"], name: "index_stocks_on_name"
+    t.index ["storage_id"], name: "index_stocks_on_storage_id"
+    t.index ["updated_by_id"], name: "index_stocks_on_updated_by_id"
   end
 
   create_table "storages", force: :cascade do |t|
@@ -66,6 +71,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_13_045054) do
     t.string "name", null: false
     t.string "email", null: false
     t.string "photo_url"
+    t.integer "state", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -74,10 +80,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_13_045054) do
   end
 
   add_foreign_key "categories", "storages"
-  add_foreign_key "items", "categories"
-  add_foreign_key "items", "storages"
-  add_foreign_key "items", "users", column: "created_by_id"
-  add_foreign_key "items", "users", column: "updated_by_id"
+  add_foreign_key "stocks", "categories"
+  add_foreign_key "stocks", "storages"
+  add_foreign_key "stocks", "users", column: "created_by_id"
+  add_foreign_key "stocks", "users", column: "updated_by_id"
   add_foreign_key "user_storages", "storages"
   add_foreign_key "user_storages", "users"
 end
