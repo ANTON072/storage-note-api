@@ -40,6 +40,9 @@ class Stock < ApplicationRecord
   validates :image_url,
             allow_blank: true,
             format:      { with: ValidationConstants::VALID_URL_REGEX }
+  validates :unit_name, presence: true
+  validates :alert_threshold, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  validates :category_id, presence: true
 
   belongs_to :storage
   belongs_to :category
