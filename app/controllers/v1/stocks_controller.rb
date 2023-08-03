@@ -1,6 +1,7 @@
 class V1::StocksController < ApplicationController
   before_action :set_storage_and_members
-  before_action :set_stock, only: %i[show update destroy favorite unfavorite increment decrement]
+  before_action :verify_member
+  before_action :set_stock, only: %i[show update destroy favorite item_count]
   before_action :verify_owner, only: %i[destroy]
   before_action :verify_creator, only: %i[destroy]
 
@@ -42,41 +43,18 @@ class V1::StocksController < ApplicationController
   end
 
   def favorite
-    @stock.update!(is_favorite: true)
+    @stock.update!(is_favorite: params[:is_favorite])
     render :show
   end
 
-  def unfavorite
-    @stock.update!(is_favorite: false)
-    render :show
-  end
-
-  def increment
+  def item_count
     item_count = params[:item_count].to_i
     if item_count <= 0
       render json: { error: 'item_countが無効です' }, status: :bad_request
       return
     end
 
-    new_item_count = @stock.item_count + item_count
-    @stock.update!(item_count: new_item_count)
-    render :show
-  end
-
-  def decrement
-    item_count = params[:item_count].to_i
-    if item_count <= 0
-      render json: { error: 'item_countが無効です' }, status: :bad_request
-      return
-    end
-
-    new_item_count = @stock.item_count - item_count
-    if new_item_count.negative?
-      render json: { error: 'item_countが無効です' }, status: :bad_request
-      return
-    end
-
-    @stock.update!(item_count: new_item_count)
+    @stock.update!(item_count: item_count)
     render :show
   end
 
@@ -92,12 +70,15 @@ class V1::StocksController < ApplicationController
   def set_storage_and_members
     @storage = Storage.find_by!(slug: params[:storage_id])
     @members = User.storage_members(@storage)
-    # メンバーしかアクセスできない
-    raise ActiveRecord::RecordNotFound unless @members.exists?(name: current_user.name)
   end
 
   def set_stock
     @stock = Stock.find(params[:id])
+  end
+
+  def verify_member
+    # メンバーしかアクセスできない
+    raise ActiveRecord::RecordNotFound unless @members.exists?(name: current_user.name)
   end
 
   def verify_owner

@@ -8,9 +8,7 @@ Rails.application.routes.draw do
 
       resources :stocks
       patch 'stocks/:id/favorite',   to: 'stocks#favorite'
-      patch 'stocks/:id/unfavorite', to: 'stocks#unfavorite'
-      patch 'stocks/:id/increment',  to: 'stocks#increment'
-      patch 'stocks/:id/decrement',  to: 'stocks#decrement'
+      patch 'stocks/:id/item_count', to: 'stocks#item_count'
     end
   end
 end
