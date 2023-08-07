@@ -2,7 +2,8 @@ class ApplicationController < ActionController::API
   include ErrorHandler
 
   FIREBASE_PROJECT_ID = Rails.configuration.firebase[:FIREBASE_PROJECT_ID]
-  GOOGLE_PUBLIC_KEYS_API = 'https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com'.freeze
+  GOOGLE_PUBLIC_KEYS_API =
+    'https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com'.freeze
   ALG = 'RS256'.freeze
 
   before_action :verify_id_token
@@ -54,7 +55,7 @@ class ApplicationController < ActionController::API
   def validate_jwt_algorithm(token)
     encoded_header = token.split('.').first
     decoded_header = JSON.parse(Base64.decode64(encoded_header))
-    alg            = decoded_header['alg']
+    alg = decoded_header['alg']
     raise AuthenticationError, '認証エラー' if alg != ALG
 
     kid = decoded_header['kid']
@@ -122,7 +123,6 @@ class ApplicationController < ActionController::API
     begin
       JWT.decode(token, public_key, true, options)
     rescue JWT::ExpiredSignature => _e
-      pp '======================================'
       raise ExpiredTokenError, '認証エラー: トークンが期限切れです。'
     rescue JWT::DecodeError => e
       raise AuthenticationError, "認証エラー: #{e.message}"

@@ -23,23 +23,23 @@ class User < ApplicationRecord
   has_many :user_storages, dependent: :destroy
   has_many :storages, through: :user_storages
   has_many :created_stocks, class_name: 'Stock', foreign_key: :created_by_id, inverse_of:
-                                        :created_by, dependent: :destroy
+    :created_by, dependent: :destroy
   has_many :updated_stocks, class_name: 'Stock', foreign_key: :updated_by_id, inverse_of:
-                                        :updated_by, dependent: :nullify
+    :updated_by, dependent: :nullify
 
   validates :name,
-            presence:   true,
+            presence: true,
             uniqueness: true,
-            length:     { minimum: 3, maximum: 15 },
-            format:     { with: /\A(?=.*[a-zA-Z])[a-zA-Z0-9_]{3,15}\z/ }
+            length: { minimum: 3, maximum: 15 },
+            format: { with: /\A(?=.*[a-zA-Z])[a-zA-Z0-9_]{3,15}\z/ }
   validates :email,
-            presence:   true,
+            presence: true,
             uniqueness: true,
-            format:     { with: ValidationConstants::VALID_EMAIL_REGEX }
+            format: { with: ValidationConstants::VALID_EMAIL_REGEX }
   validates :firebase_uid, presence: true, uniqueness: true
   validates :photo_url,
             allow_blank: true,
-            format:      { with: ValidationConstants::VALID_URL_REGEX }
+            format: { with: ValidationConstants::VALID_URL_REGEX }
 
   def self.storage_members(storage)
     User

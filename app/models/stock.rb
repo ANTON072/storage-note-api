@@ -39,7 +39,7 @@ class Stock < ApplicationRecord
   validates :item_count, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :image_url,
             allow_blank: true,
-            format:      { with: ValidationConstants::VALID_URL_REGEX }
+            format: { with: ValidationConstants::VALID_URL_REGEX }
   validates :unit_name, presence: true
   validates :alert_threshold, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :category_id, presence: true

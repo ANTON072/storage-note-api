@@ -4,7 +4,7 @@ class V1::StoragesController < ApplicationController
 
   def index
     @storages = Storage.my_storages(current_user).order(created_at: :desc)
-    @members  = User.storage_members(@storages)
+    @members = User.storage_members(@storages)
   end
 
   def show
@@ -12,10 +12,10 @@ class V1::StoragesController < ApplicationController
   end
 
   def create
-    storage       = Storage.new(
-      name:        storage_params[:name],
+    storage = Storage.new(
+      name: storage_params[:name],
       description: storage_params[:description],
-      image_url:   storage_params[:image_url]
+      image_url: storage_params[:image_url]
     )
     members_names = storage_params[:members] || []
 
@@ -33,14 +33,14 @@ class V1::StoragesController < ApplicationController
 
   def update
     existing_member_names = @members.pluck(:name).reject { |name| name == current_user.name }
-    request_member_names  = storage_params[:members] || []
-    delete_member_names   = existing_member_names - request_member_names
-    add_member_names      = request_member_names - existing_member_names
+    request_member_names = storage_params[:members] || []
+    delete_member_names = existing_member_names - request_member_names
+    add_member_names = request_member_names - existing_member_names
     ActiveRecord::Base.transaction do
       @storage.update!({
-                         name:        storage_params[:name],
+                         name: storage_params[:name],
                          description: storage_params[:description],
-                         image_url:   storage_params[:image_url]
+                         image_url: storage_params[:image_url]
                        })
       delete_member_names.each do |name|
         user = User.find_by!(name:)
