@@ -14,7 +14,7 @@ class V1::StocksController < ApplicationController
   end
 
   def create
-    stock            = @storage.stocks.build(stock_params)
+    stock = @storage.stocks.build(stock_params)
     stock.created_by = current_user
     stock.updated_by = current_user
 
@@ -24,15 +24,15 @@ class V1::StocksController < ApplicationController
 
   def update
     @stock.update!({
-                     name:              stock_params[:name],
-                     item_count:        stock_params[:item_count],
-                     image_url:         stock_params[:image_url],
-                     description:       stock_params[:description],
-                     price:             stock_params[:price],
-                     unit_name:         stock_params[:unit_name],
+                     name: stock_params[:name],
+                     item_count: stock_params[:item_count],
+                     image_url: stock_params[:image_url],
+                     description: stock_params[:description],
+                     price: stock_params[:price],
+                     unit_name: stock_params[:unit_name],
                      purchase_location: stock_params[:purchase_location],
-                     alert_threshold:   stock_params[:alert_threshold],
-                     updated_by:        current_user
+                     alert_threshold: stock_params[:alert_threshold],
+                     updated_by: current_user
                    })
     render :show
   end

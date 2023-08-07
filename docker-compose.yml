@@ -12,7 +12,7 @@ services:
       - data:/var/lib/postgresql/data:cached
   web:
     build: .
-    command: bash -c "rm -f tmp/pids/server.pid && rails s"
+#    command: bash -c "rm -f tmp/pids/server.pid && rails s"
     depends_on:
       - db
     volumes:
